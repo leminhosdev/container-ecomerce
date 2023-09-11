@@ -1,0 +1,14 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: product
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/product?useSSL=false&serverTimezone=UTC
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true

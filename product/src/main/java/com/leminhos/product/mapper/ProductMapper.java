@@ -1,7 +1,8 @@
 package com.leminhos.product.mapper;
 
 import com.leminhos.product.model.Product;
-import com.leminhos.product.model.dto.ProductDTO;
+import com.leminhos.product.model.dto.ProductRequest;
+import com.leminhos.product.model.dto.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -14,12 +15,13 @@ import java.util.stream.Collectors;
 public class ProductMapper {
     private final ModelMapper mapper;
 
-    public ProductDTO fromProductToProductDTO(Product product){
-       return mapper.map(product, ProductDTO.class);
+    public ProductResponse fromProductToProductResponse(Product product){
+       return mapper.map(product, ProductResponse.class);
     }
-    public List<ProductDTO> fromListProductToListProductDTO(List<Product> products){
+
+    public List<ProductResponse> fromListProductToListProductResponse(List<Product> products){
         return products.stream()
-                .map(product -> fromProductToProductDTO(product))
+                .map(product -> fromProductToProductResponse(product))
                 .collect(Collectors.toList());
 
     }
