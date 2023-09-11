@@ -18,7 +18,10 @@ public class ProductController {
     public void save(@RequestBody ProductRequest productRequest){
         productService.save(productRequest);
     }
-
+    @GetMapping("/oi")
+    public String oi(){
+        return "Oi";
+    }
     @GetMapping
     public List<ProductResponse> findAll(){
         return productService.findAll();
