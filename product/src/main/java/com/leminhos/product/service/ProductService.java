@@ -53,4 +53,11 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    public Boolean productExistsOrNot(String skucode) {
+        if(productRepository.findBySkuCode(skucode).isPresent()){
+            return true;
+        } else{
+            return false;
+        }
+    }
 }

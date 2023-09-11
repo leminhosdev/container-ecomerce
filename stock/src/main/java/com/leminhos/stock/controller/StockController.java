@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public class StockController {
     private final StockService stockService;
     @PostMapping
-    public void save(@RequestParam("skuCode")String skuCode, @RequestParam("balance")Integer balance){
-        stockService.save(skuCode, balance);
+    public void save(@RequestParam("skuCode")String skuCode, @RequestParam("amount")Integer amount){
+        stockService.save(skuCode, amount);
     }
 }

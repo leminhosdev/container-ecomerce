@@ -16,13 +16,29 @@ public class StockService {
 
     private final StockRepository stockRepository;
 
-    public void save(String skuCode, Integer balance){
-        String url = "http://localhost:8080/api/v1/product/oi";
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-        String responseBody = responseEntity.getBody();
-        log.info(responseBody);
-        // Stock stock = Stock.builder().balance(balance).productSkuCode(skuCode).build();
-       // stockRepository.save(stock);
+    public void save(String skuCode, Integer amount){
+        String url = "http://localhost:8080/api/v1/product/productexists?skuCode="+skuCode+"&amount="+amount;
+        ResponseEntity<Boolean> responseEntity = restTemplate.getForEntity(url, Boolean.class);
+        Boolean responseBody = responseEntity.getBody();
+        if(responseBody){
+            Stock stockFounded = stockRepository.findByProductSkuCode(skuCode).get();
+            Stock stock = Stock.builder()
+                    .amount(amount)
+                    .productSkuCode(skuCode).build();
+
+            if(stockRepository.findByProductSkuCode(skuCode).isPresent()){
+                if(stockFounded.getAmount() == null) {stockFounded.setAmount(0);}
+                Integer total = stockFounded.getAmount() + amount;
+                stock.setId(stockFounded.getId());
+               stock.setAmount(amount);
+
+               stockRepository.save(stock);
+           } else {
+                stockRepository.save(stock);
+            }
+        } else {
+            throw new IllegalArgumentException("This product skuCode doesn't exists");
+        }
 
     }
 }
