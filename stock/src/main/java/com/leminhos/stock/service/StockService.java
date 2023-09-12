@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -17,28 +19,33 @@ public class StockService {
     private final StockRepository stockRepository;
 
     public void save(String skuCode, Integer amount){
-        String url = "http://localhost:8080/api/v1/product/productexists?skuCode="+skuCode+"&amount="+amount;
+        String url = "http://localhost:8080/api/v1/product/productexists?skuCode=" + skuCode + "&amount=" + amount;
         ResponseEntity<Boolean> responseEntity = restTemplate.getForEntity(url, Boolean.class);
         Boolean responseBody = responseEntity.getBody();
-        if(responseBody){
-            Stock stockFounded = stockRepository.findByProductSkuCode(skuCode).get();
-            Stock stock = Stock.builder()
-                    .amount(amount)
-                    .productSkuCode(skuCode).build();
+        if (responseBody) {
+            Stock stockFounded = stockRepository.findByProductSkuCode(skuCode)
+                    .orElse(Stock.builder().productSkuCode(skuCode).amount(0).build());
 
-            if(stockRepository.findByProductSkuCode(skuCode).isPresent()){
-                if(stockFounded.getAmount() == null) {stockFounded.setAmount(0);}
-                Integer total = stockFounded.getAmount() + amount;
-                stock.setId(stockFounded.getId());
-               stock.setAmount(amount);
-
-               stockRepository.save(stock);
-           } else {
-                stockRepository.save(stock);
+            Integer existingAmount = stockFounded.getAmount();
+            if (existingAmount == null) {
+                existingAmount = 0;
             }
+
+            Integer total = existingAmount + amount;
+            stockFounded.setAmount(total);
+
+            stockRepository.save(stockFounded);
         } else {
-            throw new IllegalArgumentException("This product skuCode doesn't exists");
+            throw new IllegalArgumentException("This product skuCode doesn't exist");
         }
 
+    }
+
+    public Boolean isInStockOrNot(List<String> skuCode) {
+        List<Stock> byProductSkuCodeIn = stockRepository.findByProductSkuCodeIn(skuCode);
+
+        if(skuCode.size() > byProductSkuCodeIn.size())return false;
+
+    return true;
     }
 }

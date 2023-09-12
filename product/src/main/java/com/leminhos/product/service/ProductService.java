@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +19,11 @@ public class ProductService {
 
 
     public void save(ProductRequest productRequest)  {
+        Product productFinded =  null;
 
-        Product productFinded = productRepository.findBySkuCode(productRequest.getSkuCode()).get();
+        if(productRepository.findBySkuCode(productRequest.getSkuCode()).isPresent()){
+          productFinded = productRepository.findBySkuCode(productRequest.getSkuCode()).get();
+        }
         if(productFinded == null){
             Product product = Product.builder()
                     .name(productRequest.getName())

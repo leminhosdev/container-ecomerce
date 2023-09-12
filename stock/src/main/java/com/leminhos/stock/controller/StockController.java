@@ -4,6 +4,8 @@ import com.leminhos.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/stock")
 @RequiredArgsConstructor
@@ -12,5 +14,11 @@ public class StockController {
     @PostMapping
     public void save(@RequestParam("skuCode")String skuCode, @RequestParam("amount")Integer amount){
         stockService.save(skuCode, amount);
+    }
+
+    @GetMapping
+    public Boolean isInStockOrNot(@RequestParam("skuCode") List<String> skuCode){
+       return stockService.isInStockOrNot(skuCode);
+
     }
 }
