@@ -1,5 +1,6 @@
 package com.leminhos.stock.controller;
 
+import com.leminhos.stock.model.dto.stockResponse;
 import com.leminhos.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,7 @@ public class StockController {
     }
 
     @GetMapping
-    public Boolean isInStockOrNot(@RequestParam("skuCode") List<String> skuCode){
+    public stockResponse isInStockOrNot(@RequestParam("skuCode") List<String> skuCode){
        return stockService.isInStockOrNot(skuCode);
-
     }
 }

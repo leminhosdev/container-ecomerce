@@ -1,6 +1,7 @@
 package com.leminhos.stock.service;
 
 import com.leminhos.stock.model.Stock;
+import com.leminhos.stock.model.dto.stockResponse;
 import com.leminhos.stock.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -41,11 +42,18 @@ public class StockService {
 
     }
 
-    public Boolean isInStockOrNot(List<String> skuCode) {
+    public stockResponse isInStockOrNot(List<String> skuCode) {
         List<Stock> byProductSkuCodeIn = stockRepository.findByProductSkuCodeIn(skuCode);
 
-        if(skuCode.size() > byProductSkuCodeIn.size())return false;
+        stockResponse stockcheck = stockResponse.builder()
+                .isInStock(false)
+                .stockProductList(byProductSkuCodeIn)
+                .build();
 
-    return true;
+        if(skuCode.size() == byProductSkuCodeIn.size()){
+            stockcheck.setIsInStock(true);
+        };
+
+    return stockcheck;
     }
 }
