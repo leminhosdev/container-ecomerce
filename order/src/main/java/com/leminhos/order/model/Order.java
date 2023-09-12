@@ -1,10 +1,7 @@
 package com.leminhos.order.model;
 
 import com.leminhos.order.model.dto.OrderRequest;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -15,9 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToMany(mappedBy = "order")
     private List<OrderRequest> orderRequestList;
 }

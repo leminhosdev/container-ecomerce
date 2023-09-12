@@ -1,6 +1,7 @@
 package com.leminhos.stock.service;
 
 import com.leminhos.stock.model.Stock;
+import com.leminhos.stock.model.dto.OrderRequest;
 import com.leminhos.stock.model.dto.stockResponse;
 import com.leminhos.stock.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,18 +44,21 @@ public class StockService {
 
     }
 
-    public stockResponse isInStockOrNot(List<String> skuCode) {
-        List<Stock> byProductSkuCodeIn = stockRepository.findByProductSkuCodeIn(skuCode);
+    public stockResponse isInStockOrNot(List<String> skuCodeList) {
+
+        List<Stock> byProductSkuCodeIn = stockRepository.findByProductSkuCodeIn(skuCodeList);
 
         stockResponse stockcheck = stockResponse.builder()
                 .isInStock(false)
                 .stockProductList(byProductSkuCodeIn)
                 .build();
 
-        if(skuCode.size() == byProductSkuCodeIn.size()){
+        if(skuCodeList.size() == byProductSkuCodeIn.size()){
             stockcheck.setIsInStock(true);
         };
 
     return stockcheck;
     }
+
+
 }

@@ -1,14 +1,15 @@
 server:
-  port: 8081
+  port: 8082
 spring:
   application:
-    name: stock
+    name: order
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost/stock?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost/order?useSSL=false&serverTimezone=UTC
     username: root
     password:
   jpa:
     hibernate:
       ddl-auto: update
       show-sql: true
+
