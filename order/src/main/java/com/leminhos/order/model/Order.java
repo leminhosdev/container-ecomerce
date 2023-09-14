@@ -1,6 +1,7 @@
 package com.leminhos.order.model;
 
 import com.leminhos.order.model.dto.OrderRequest;
+import com.leminhos.order.model.dto.Stock;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,5 +19,5 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToMany(mappedBy = "order")
-    private List<OrderRequest> orderRequestList;
+    private List<Stock> stockList;
 }

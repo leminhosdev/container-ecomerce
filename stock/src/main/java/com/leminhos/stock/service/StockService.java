@@ -1,7 +1,8 @@
 package com.leminhos.stock.service;
 
 import com.leminhos.stock.model.Stock;
-import com.leminhos.stock.model.dto.OrderRequest;
+
+import com.leminhos.stock.model.dto.StockRequest;
 import com.leminhos.stock.model.dto.stockResponse;
 import com.leminhos.stock.repository.StockRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,9 +56,12 @@ public class StockService {
 
         if(skuCodeList.size() == byProductSkuCodeIn.size()){
             stockcheck.setIsInStock(true);
-        };
+            return stockcheck;
+        } else {
+            throw new IllegalStateException("Does not have enough stock");
+        }
 
-    return stockcheck;
+
     }
 
 

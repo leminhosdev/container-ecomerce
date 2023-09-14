@@ -1,11 +1,13 @@
 package com.leminhos.stock.controller;
 
-import com.leminhos.stock.model.dto.OrderRequest;
+import com.leminhos.stock.model.Stock;
+import com.leminhos.stock.model.dto.StockRequest;
 import com.leminhos.stock.model.dto.stockResponse;
 import com.leminhos.stock.service.StockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class StockController {
     @GetMapping
     public stockResponse isInStockOrNot(@RequestParam("skuCodeList") String skuCodeList){
         List<String> skuCodes = Arrays.asList(skuCodeList.split(","));
-       return stockService.isInStockOrNot(skuCodes);
+        return stockService.isInStockOrNot(skuCodes);
+
     }
 }
