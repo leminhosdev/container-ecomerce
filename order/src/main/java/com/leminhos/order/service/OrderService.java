@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Log4j2
 public class OrderService {
+
     private final RestTemplate restTemplate;
     private final OrderRepository orderRepository;
     public void saveOrder(List<Stock> stockList) {
@@ -33,7 +34,7 @@ public class OrderService {
 
         //StockRequest stockRequest = new StockRequest(skuCodeList, stockList);
         String skuCodesAsString = String.join(",", skuCodeList);
-        String url = "http://localhost:8081/api/v1/stock?skuCodeList="+ skuCodesAsString;
+        String url = "http://stock/api/v1/stock?skuCodeList="+ skuCodesAsString;
         ResponseEntity<StockResponse> responseEntity = restTemplate.getForEntity(url, StockResponse.class);
         StockResponse responseBody = responseEntity.getBody();
         log.info(responseBody.getIsInStock());

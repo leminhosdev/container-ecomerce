@@ -23,7 +23,7 @@ public class StockService {
     private final StockRepository stockRepository;
 
     public void save(String skuCode, Integer amount){
-        String url = "http://localhost:8080/api/v1/product/productexists?skuCode=" + skuCode + "&amount=" + amount;
+        String url = "http://product/api/v1/product/productexists?skuCode=" + skuCode + "&amount=" + amount;
         ResponseEntity<Boolean> responseEntity = restTemplate.getForEntity(url, Boolean.class);
         Boolean responseBody = responseEntity.getBody();
         if (responseBody) {
